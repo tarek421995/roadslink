@@ -1,0 +1,37 @@
+@course_router.get(
+    "/courses/programs-list/{course_id}",
+    response_model=t.List[ProgramSchema],
+    response_model_exclude_none=True,
+)
+async def courses_programs_list(
+    response: Response,
+    db=Depends(get_db),
+    course_id=int,
+):
+    """
+    Get all programs
+    """
+    programs = programs_course_list(db,course_id)
+    print(programs)
+    # This is necessary for react-admin to work
+    # response.headers["Content-Range"] = f"0-9/{len(programs)}"
+    return programs
+
+@course_router.get(
+    "/courses/quizes-list/{course_id}",
+    response_model=t.List[QuizSchema],
+    response_model_exclude_none=True,
+)
+async def courses_programs_list(
+    response: Response,
+    db=Depends(get_db),
+    course_id=int,
+):
+    """
+    Get all programs
+    """
+    quizes = programs_quiz_list(db,course_id)
+    print(quizes)
+    # This is necessary for react-admin to work
+    response.headers["Content-Range"] = f"0-9/{len(quizes)}"
+    return quizes
